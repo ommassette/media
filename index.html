@@ -82,6 +82,9 @@
 
         /* STRICT ISOLATED MOBILE RESPONSIVENESS (<1024px ONLY) */
         @media (max-width: 1023px) {
+            #loader {
+                display: none !important;
+            }
             #main-body {
                 overflow-x: hidden !important;
                 overflow-y: auto !important;
@@ -484,12 +487,16 @@
         });
 
         window.addEventListener('load', () => {
-            loaderProgress.style.width = '100%';
+            if (window.innerWidth >= 1024) {
+                loaderProgress.style.width = '100%';
 
-            setTimeout(() => {
-                loader.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    loader.classList.add('opacity-0', 'pointer-events-none');
+                    triggerArrangementTransitions();
+                }, 600);
+            } else {
                 triggerArrangementTransitions();
-            }, 600);
+            }
         });
 
         function triggerArrangementTransitions() {
