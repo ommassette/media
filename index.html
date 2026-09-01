@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Siyad Report Media</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Fleur+De+Leah&family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        .font-fleur {
+            font-family: 'Fleur De Leah', cursive;
+        }
+        .font-clever-light {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+        }
+        .font-montserrat-bold {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+        }
+        .font-montserrat {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .nav-item {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .nav-item .hand-oval {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            height: 180%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            stroke: #ffffff;
+            z-index: 0;
+        }
+        .nav-item.active .hand-oval {
+            display: block;
+        }
+        .nav-item span {
+            position: relative;
+            z-index: 10;
+        }
+
+        .reveal-element {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-element.reveal-active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.reveal-active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.reveal-active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* STRICT ISOLATED MOBILE RESPONSIVENESS (<1024px ONLY) */
+        @media (max-width: 1023px) {
+            #main-body {
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
+                height: auto !important;
+                min-height: 100vh;
+            }
+            .app-container {
+                flex-direction: column !important;
+                height: auto !important;
+                overflow: visible !important;
+            }
+
+            .mobile-header-bar {
+                display: flex !important;
+                position: fixed !important;
+                top: 0 !important;
+                left: 0 !important;
+                width: 100% !important;
+                background-color: transparent !important;
+                border-bottom: none !important;
+                justify-content: center !important;
+                align-items: center !important;
+                padding: 1.25rem 1rem !important;
+                z-index: 50 !important;
+                pointer-events: none !important;
+            }
+            .mobile-header-bar h1 {
+                color: #ffffff !important;
+                text-align: center !important;
+                pointer-events: auto !important;
+            }
+
+            #main-header {
+                display: none !important;
+            }
+
+            .col-center-feed {
+                width: 100% !important;
+                height: auto !important;
+                border-right: none !important;
+                order: 1;
+                margin-top: 3.5rem !important;
+            }
+
+            #scroll-container {
+                display: flex !important;
+                flex-direction: row !important;
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+                snap-type: x mandatory !important;
+                scroll-snap-type: x mandatory !important;
+                width: 100vw !important;
+                height: auto !important;
+                -webkit-overflow-scrolling: touch;
+            }
+            .slide-item {
+                flex: 0 0 100vw !important;
+                width: 100vw !important;
+                height: auto !important;
+                padding: 2.5rem 1.5rem 1.5rem 1.5rem !important;
+                snap-align: start !important;
+                snap-stop: always !important;
+            }
+
+            .col-left-sidebar {
+                width: 100% !important;
+                height: auto !important;
+                border-right: none !important;
+                order: 2;
+            }
+            .mobile-boxes-row {
+                display: flex !important;
+                flex-direction: row !important;
+                width: 100% !important;
+                height: 180px !important;
+                min-height: 180px !important;
+                border-top: 2px solid #000 !important;
+                border-bottom: 2px solid #000 !important;
+            }
+            .mobile-read-more-box {
+                width: 50% !important;
+                height: 100% !important;
+                min-height: 100% !important;
+                border-right: 2px solid #000 !important;
+                border-bottom: none !important;
+                padding: 1rem !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+            .mobile-scroll-info-box {
+                width: 50% !important;
+                height: 100% !important;
+                min-height: 100% !important;
+                padding: 1rem !important;
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                justify-content: center !important;
+            }
+
+            .col-right-sidebar {
+                width: 100% !important;
+                height: auto !important;
+                order: 3;
+                padding: 1.5rem !important;
+            }
+            .mobile-next-article-hidden {
+                display: none !important;
+            }
+
+            .mobile-nav-tray {
+                display: flex !important;
+                flex-direction: column !important;
+                align-items: center !important;
+                margin-top: 2rem !important;
+                padding-top: 1.5rem !important;
+                border-top: 1px solid rgba(0, 0, 0, 0.2) !important;
+            }
+            .mobile-nav-tray .nav-item {
+                display: block !important;
+                margin-bottom: 1.5rem !important;
+            }
+        }
+    </style>
+</head>
+<body id="main-body" class="bg-[#5e8573] h-screen w-screen overflow-hidden text-black transition-colors duration-700 ease-in-out">
+
+    <div id="loader" class="fixed inset-0 z-50 bg-[#1a1a1a] flex flex-col items-center justify-center transition-opacity duration-700 ease-in-out">
+        <h1 class="font-fleur text-5xl md:text-6xl text-white/90 mb-4 tracking-wide">siyad report media</h1>
+        <div class="w-48 h-[2px] bg-white/20 overflow-hidden relative">
+            <div id="loader-progress" class="absolute top-0 left-0 bottom-0 w-0 bg-white transition-all duration-300 ease-out"></div>
+        </div>
+    </div>
+
+    <header id="mobile-header" class="mobile-header-bar hidden">
+        <h1 class="font-fleur text-3xl sm:text-4xl text-white font-normal drop-shadow-md">siyad report media</h1>
+    </header>
+
+    <div class="app-container flex h-full w-full">
+        <div class="col-left-sidebar w-1/4 flex flex-col border-r-2 border-black h-full reveal-left">
+            <div class="mobile-boxes-row flex flex-col h-full">
+                <a id="read-more-link" href="full_article.html" class="mobile-read-more-box h-1/2 min-h-[200px] border-b-2 border-black p-6 flex flex-col items-center justify-center transition-colors duration-300 hover:bg-black hover:text-white group text-center cursor-pointer relative">
+                    <svg class="w-8 h-8 mb-2 transform rotate-45 transition-transform duration-300 group-hover:translate-x-1 group-hover:translate-y-1 text-black lg:text-white group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                    <span class="font-clever-light text-2xl sm:text-3xl md:text-4xl leading-tight block">Read More</span>
+                    <span class="font-clever-light text-2xl sm:text-3xl md:text-4xl leading-tight block">about this</span>
+                    <span class="font-clever-light text-2xl sm:text-3xl md:text-4xl leading-tight block">Piece</span>
+                </a>
+                
+                <div class="mobile-scroll-info-box h-1/2 p-6 flex flex-col justify-between items-center text-center min-h-[160px]">
+                    <div class="my-auto">
+                        <p class="font-montserrat-bold uppercase text-xs leading-none tracking-normal">
+                            <span class="hidden lg:block mb-1">SCROLL DOWN</span>
+                            <span class="block lg:hidden mb-1">SCROLL HORIZONTALLY</span>
+                            <span class="block">FOR MORE</span>
+                        </p>
+                    </div>
+
+                    <div class="w-full hidden lg:flex items-center justify-between font-montserrat text-[10px] uppercase tracking-widest text-black/80">
+                        <a href="/privacy-policy/" class="hover:underline font-semibold">Privacy Policy</a>
+                        <span>&copy; 2026 Siyad</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-center-feed w-2/4 h-full flex flex-col border-r-2 border-black relative">
+            <header id="main-header" class="p-4 border-b border-black/20 text-center sticky top-0 bg-[#5e8573] transition-colors duration-700 ease-in-out z-30 reveal-element">
+                <h1 class="font-fleur text-3xl md:text-4xl text-black/90 font-normal">
+                    siyad report media
+                </h1>
+            </header>
+
+            <div id="scroll-container" class="flex-1 overflow-y-auto snap-y snap-mandatory relative scroll-smooth">
+                
+                <article 
+                    data-category="stories"
+                    data-slug="the-unseen-perspective"
+                    data-bg="#5e8573" 
+                    data-overlay-img="https://picsum.photos/400/500?overlay1"
+                    data-next-slug="silent-echoes"
+                    data-next-title="Silent Echoes" 
+                    data-next-img="https://picsum.photos/401/501?overlay2" 
+                    data-next-excerpt="A deep dive into classic minimal forms and spatial harmony within structural architecture." 
+                    class="slide-item h-full w-full snap-start snap-always p-8 flex flex-col justify-center">
+                    <div class="max-w-md mx-auto w-full">
+                        <a href="full_article.html" class="relative mb-8 cursor-pointer group block">
+                            <div class="w-full h-[280px] sm:h-[380px] overflow-hidden border border-black shadow-lg reveal-element">
+                                <img src="https://picsum.photos/600/800?grayscale" alt="Article 1" class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-105" />
+                            </div>
+                            <div class="absolute -top-6 -right-4 sm:-right-6 w-32 h-44 sm:w-44 sm:h-56 overflow-hidden border-2 border-black shadow-2xl transform rotate-6 transition-transform duration-500 group-hover:rotate-3 group-hover:scale-105 z-10 reveal-element">
+                                <img src="https://picsum.photos/400/500?overlay1" alt="Overlay Feature" class="w-full h-full object-cover" />
+                            </div>
+                            <div class="relative -mt-12 sm:-mt-16 z-20 reveal-element">
+                                <h2 class="font-clever-light text-4xl sm:text-5xl md:text-6xl leading-none text-white drop-shadow-md">
+                                    The Unseen <br />
+                                    <span class="italic font-normal">Perspective</span>
+                                </h2>
+                            </div>
+                        </a>
+                        <p class="font-montserrat text-sm leading-relaxed text-black/90 reveal-element">
+                            An exploration of visual rhythm and structural narrative, focusing on raw monochrome geometry overlaid with vivid expressions of modern life.
+                        </p>
+                    </div>
+                </article>
+
+                <article 
+                    data-category="selected"
+                    data-slug="silent-echoes"
+                    data-bg="#73685e" 
+                    data-overlay-img="https://picsum.photos/401/501?overlay2"
+                    data-next-slug="raw-geometry"
+                    data-next-title="Raw Geometry" 
+                    data-next-img="https://picsum.photos/402/502?overlay3" 
+                    data-next-excerpt="Examining brutalist forms and tactile materiality in contemporary spatial curation." 
+                    class="slide-item h-full w-full snap-start snap-always p-8 flex flex-col justify-center">
+                    <div class="max-w-md mx-auto w-full">
+                        <a href="full_article.html" class="relative mb-8 cursor-pointer group block">
+                            <div class="w-full h-[280px] sm:h-[380px] overflow-hidden border border-black shadow-lg">
+                                <img src="https://picsum.photos/601/801?grayscale" alt="Article 2" class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-105" />
+                            </div>
+                            <div class="absolute -top-6 -right-4 sm:-right-6 w-32 h-44 sm:w-44 sm:h-56 overflow-hidden border-2 border-black shadow-2xl transform -rotate-6 transition-transform duration-500 group-hover:-rotate-3 group-hover:scale-105 z-10">
+                                <img src="https://picsum.photos/401/501?overlay2" alt="Overlay Feature" class="w-full h-full object-cover" />
+                            </div>
+                            <div class="relative -mt-12 sm:-mt-16 z-20">
+                                <h2 class="font-clever-light text-4xl sm:text-5xl md:text-6xl leading-none text-white drop-shadow-md">
+                                    Silent <br />
+                                    <span class="italic font-normal">Echoes</span>
+                                </h2>
+                            </div>
+                        </a>
+                        <p class="font-montserrat text-sm leading-relaxed text-black/90">
+                            A deep dive into classic minimal forms and spatial harmony within structural architecture. Exploring how empty spaces shape emotion and design clarity.
+                        </p>
+                    </div>
+                </article>
+
+                <article 
+                    data-category="editorial"
+                    data-slug="raw-geometry"
+                    data-bg="#5e7385" 
+                    data-overlay-img="https://picsum.photos/402/502?overlay3"
+                    data-next-slug="the-unseen-perspective"
+                    data-next-title="The Unseen Perspective" 
+                    data-next-img="https://picsum.photos/400/500?overlay1" 
+                    data-next-excerpt="An exploration of visual rhythm and structural narrative, focusing on raw monochrome geometry." 
+                    class="slide-item h-full w-full snap-start snap-always p-8 flex flex-col justify-center">
+                    <div class="max-w-md mx-auto w-full">
+                        <a href="full_article.html" class="relative mb-8 cursor-pointer group block">
+                            <div class="w-full h-[280px] sm:h-[380px] overflow-hidden border border-black shadow-lg">
+                                <img src="https://picsum.photos/602/802?grayscale" alt="Article 3" class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-105" />
+                            </div>
+                            <div class="absolute -top-6 -right-4 sm:-right-6 w-32 h-44 sm:w-44 sm:h-56 overflow-hidden border-2 border-black shadow-2xl transform rotate-6 transition-transform duration-500 group-hover:rotate-3 group-hover:scale-105 z-10">
+                                <img src="https://picsum.photos/402/502?overlay3" alt="Overlay Feature" class="w-full h-full object-cover" />
+                            </div>
+                            <div class="relative -mt-12 sm:-mt-16 z-20">
+                                <h2 class="font-clever-light text-4xl sm:text-5xl md:text-6xl leading-none text-white drop-shadow-md">
+                                    Raw <br />
+                                    <span class="italic font-normal">Geometry</span>
+                                </h2>
+                            </div>
+                        </a>
+                        <p class="font-montserrat text-sm leading-relaxed text-black/90">
+                            Examining brutalist forms and tactile materiality in contemporary spatial curation.
+                        </p>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+
+        <div class="col-right-sidebar w-1/4 h-full p-8 flex flex-col justify-between overflow-hidden reveal-right">
+            <div class="space-y-8 pt-4">
+                <nav class="hidden lg:flex flex-col items-center space-y-6 font-montserrat uppercase text-sm tracking-widest font-medium">
+                    <div data-filter="all" class="nav-item active">
+                        <svg class="hand-oval" viewBox="0 0 100 50" fill="none" stroke-width="2">
+                            <path d="M 10,25 C 10,8 90,5 92,25 C 94,45 8,42 12,25" stroke-linecap="round" />
+                        </svg>
+                        <span>STORIES</span>
+                    </div>
+                    <div data-filter="selected" class="nav-item">
+                        <svg class="hand-oval" viewBox="0 0 100 50" fill="none" stroke-width="2">
+                            <path d="M 8,24 C 12,6 88,8 90,26 C 92,44 10,40 14,24" stroke-linecap="round" />
+                        </svg>
+                        <span>SELECTED</span>
+                    </div>
+                    <div data-filter="masters" class="nav-item">
+                        <svg class="hand-oval" viewBox="0 0 100 50" fill="none" stroke-width="2">
+                            <path d="M 10,25 C 10,8 90,5 92,25 C 94,45 8,42 12,25" stroke-linecap="round" />
+                        </svg>
+                        <span>MASTERS</span>
+                    </div>
+                    <div data-filter="editorial" class="nav-item">
+                        <svg class="hand-oval" viewBox="0 0 100 50" fill="none" stroke-width="2">
+                            <path d="M 6,26 C 10,5 94,7 92,27 C 90,46 12,42 8,26" stroke-linecap="round" />
+                        </svg>
+                        <span>EDITORIAL</span>
+                    </div>
+                </nav>
+
+                <form action="#" method="POST" class="border-2 border-black p-4 flex flex-col space-y-3">
+                    <label for="newsletter-email" class="font-montserrat-bold text-[10px] uppercase tracking-widest text-black">
+                        Subscribe to Newsletter
+                    </label>
+                    <div class="flex items-center border-b border-black pb-1">
+                        <input type="email" id="newsletter-email" name="email" placeholder="Enter your email" required class="bg-transparent w-full text-xs font-montserrat focus:outline-none placeholder-black/60 text-black">
+                        <button type="submit" aria-label="Subscribe" class="text-black hover:opacity-70 transition-opacity pl-2">
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+
+                <nav class="mobile-nav-tray lg:hidden font-montserrat uppercase text-sm tracking-widest font-medium">
+                    <div data-filter="all" class="nav-item active">
+                        <svg class="hand-oval" viewBox="0 0 100 50" fill="none" stroke-width="2">
+                            <path d="M 10,25 C 10,8 90,5 92,25 C 94,45 8,42 12,25" stroke-linecap="round" />
+                        </svg>
+                        <span>STORIES</span>
+                    </div>
+                    <div data-filter="selected" class="nav-item">
+                        <svg class="hand-oval" viewBox="0 0 100 50" fill="none" stroke-width="2">
+                            <path d="M 8,24 C 12,6 88,8 90,26 C 92,44 10,40 14,24" stroke-linecap="round" />
+                        </svg>
+                        <span>SELECTED</span>
+                    </div>
+                    <div data-filter="masters" class="nav-item">
+                        <svg class="hand-oval" viewBox="0 0 100 50" fill="none" stroke-width="2">
+                            <path d="M 10,25 C 10,8 90,5 92,25 C 94,45 8,42 12,25" stroke-linecap="round" />
+                        </svg>
+                        <span>MASTERS</span>
+                    </div>
+                    <div data-filter="editorial" class="nav-item">
+                        <svg class="hand-oval" viewBox="0 0 100 50" fill="none" stroke-width="2">
+                            <path d="M 6,26 C 10,5 94,7 92,27 C 90,46 12,42 8,26" stroke-linecap="round" />
+                        </svg>
+                        <span>EDITORIAL</span>
+                    </div>
+                </nav>
+            </div>
+
+            <a id="next-article-link" href="full_article.html" class="mobile-next-article-hidden pb-4 relative group cursor-pointer transition-opacity duration-300 block my-6 lg:my-0">
+                <span class="font-montserrat uppercase text-[10px] tracking-widest block mb-4 text-black/70">NEXT ARTICLE</span>
+                
+                <div class="relative mb-3">
+                    <div class="w-24 h-24 overflow-hidden border border-black rounded-none">
+                        <img id="next-img" src="https://picsum.photos/401/501?overlay2" alt="Article Preview" class="w-full h-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 group-hover:scale-105" />
+                    </div>
+                    
+                    <h3 id="next-title" class="font-clever-light text-4xl md:text-5xl leading-none text-white absolute top-4 left-8 z-10 drop-shadow-md pointer-events-none">
+                        Silent Echoes
+                    </h3>
+                </div>
+                
+                <p id="next-excerpt" class="font-montserrat text-xs leading-relaxed text-black/80">
+                    A deep dive into classic minimal forms and spatial harmony within structural architecture.
+                </p>
+            </a>
+
+            <div class="w-full flex lg:hidden items-center justify-between font-montserrat text-[10px] uppercase tracking-widest text-black/80 pt-6 border-t border-black/20">
+                <a href="/privacy-policy/" class="hover:underline font-semibold">Privacy Policy</a>
+                <span>&copy; 2026 Siyad</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const body = document.getElementById('main-body');
+        const header = document.getElementById('main-header');
+        const container = document.getElementById('scroll-container');
+        const slides = Array.from(document.querySelectorAll('.slide-item'));
+        const filterBtns = document.querySelectorAll('[data-filter]');
+
+        const readMoreLink = document.getElementById('read-more-link');
+        const nextArticleLink = document.getElementById('next-article-link');
+        const nextTitle = document.getElementById('next-title');
+        const nextImg = document.getElementById('next-img');
+        const nextExcerpt = document.getElementById('next-excerpt');
+
+        const loader = document.getElementById('loader');
+        const loaderProgress = document.getElementById('loader-progress');
+
+        function resetLaptopInlineStyles() {
+            if (window.innerWidth >= 1024) {
+                body.style.backgroundColor = '';
+                header.style.backgroundColor = '';
+                container.scrollLeft = 0;
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 1024) {
+                resetLaptopInlineStyles();
+            } else {
+                container.scrollTop = 0;
+            }
+            initObserver();
+        });
+
+        window.addEventListener('load', () => {
+            loaderProgress.style.width = '100%';
+
+            setTimeout(() => {
+                loader.classList.add('opacity-0', 'pointer-events-none');
+                triggerArrangementTransitions();
+            }, 600);
+        });
+
+        function triggerArrangementTransitions() {
+            const leftCol = document.querySelector('.reveal-left');
+            const rightCol = document.querySelector('.reveal-right');
+            const centerElements = document.querySelectorAll('.slide-item:first-child .reveal-element, #main-header');
+
+            setTimeout(() => leftCol.classList.add('reveal-active'), 100);
+            setTimeout(() => rightCol.classList.add('reveal-active'), 250);
+
+            centerElements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.classList.add('reveal-active');
+                }, 400 + (index * 120));
+            });
+        }
+
+        let observer;
+
+        function updateActiveArticleData(target) {
+            const newBg = target.getAttribute('data-bg');
+            const nextOverlayImg = target.getAttribute('data-next-img');
+
+            readMoreLink.href = 'full_article.html';
+            if (nextArticleLink) nextArticleLink.href = 'full_article.html';
+
+            body.style.backgroundColor = newBg;
+            if (header) header.style.backgroundColor = newBg;
+
+            if (nextTitle) nextTitle.textContent = target.getAttribute('data-next-title');
+            if (nextImg) nextImg.src = nextOverlayImg;
+            if (nextExcerpt) nextExcerpt.textContent = target.getAttribute('data-next-excerpt');
+        }
+
+        function initObserver() {
+            if (observer) observer.disconnect();
+
+            const isMobile = window.innerWidth < 1024;
+
+            if (isMobile) {
+                const handleHorizontalScroll = () => {
+                    if (window.innerWidth >= 1024) return;
+                    const visibleSlides = slides.filter(slide => slide.style.display !== 'none');
+                    let currentSlide = visibleSlides[0];
+
+                    const scrollPosition = container.scrollLeft;
+                    const slideWidth = container.clientWidth;
+
+                    const activeIndex = Math.round(scrollPosition / slideWidth);
+                    if (visibleSlides[activeIndex]) {
+                        currentSlide = visibleSlides[activeIndex];
+                    }
+
+                    if (currentSlide) {
+                        updateActiveArticleData(currentSlide);
+                    }
+                };
+
+                container.removeEventListener('scroll', handleHorizontalScroll);
+                container.addEventListener('scroll', handleHorizontalScroll, { passive: true });
+                handleHorizontalScroll();
+            } else {
+                resetLaptopInlineStyles();
+
+                observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            updateActiveArticleData(entry.target);
+                        }
+                    });
+                }, { root: container, threshold: 0.6 });
+
+                const visibleSlides = slides.filter(slide => slide.style.display !== 'none');
+                visibleSlides.forEach(slide => observer.observe(slide));
+            }
+        }
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const category = btn.getAttribute('data-filter');
+
+                filterBtns.forEach(b => b.classList.remove('active'));
+                
+                filterBtns.forEach(b => {
+                    if (b.getAttribute('data-filter') === category) {
+                        b.classList.add('active');
+                    }
+                });
+
+                slides.forEach(slide => {
+                    const slideCategory = slide.getAttribute('data-category');
+                    if (category === 'all' || slideCategory === category) {
+                        slide.style.display = 'flex';
+                    } else {
+                        slide.style.display = 'none';
+                    }
+                });
+
+                if (window.innerWidth < 1024) {
+                    container.scrollLeft = 0;
+                } else {
+                    container.scrollTop = 0;
+                }
+                
+                initObserver();
+            });
+        });
+
+        initObserver();
+    </script>
+</body>
+</html>
